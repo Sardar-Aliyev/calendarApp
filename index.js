@@ -11,36 +11,33 @@ const months = ["January", "Febuary", "March", "April", "May", "June", "July", "
 
 
 const renderCalendar = () => {
+    currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
 
     let firstdaysofMonth = new Date(currentYear, currentMonth, 1).getDay(); // first day of month
-    let lastDatesofMonth = new Date(currentYear, currentMonth + 1, 0).getDate();  // last date of month
-    let lastDayofMonth = new Date(currentYear, currentMonth).getDay();  // last day of month
-    let lastdateofPreviousMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-
+    let lastDatesofMonth = new Date(currentYear, currentMonth + 1, 0).getDate();  // last date of current month
+    let lastDayofMonth = new Date(currentYear, currentMonth,lastDatesofMonth).getDay();  // last day of current month
+    let lastdateofPreviousMonth = new Date(currentYear, currentMonth + 0, 0).getDate();
+    
     let liTag = "";
 
     for (let i = firstdaysofMonth; i > 0; i--) {
         liTag = liTag + `<li class="inactive">${lastdateofPreviousMonth - i + 1}</li>`; // creating previous month last days
-        
     }
 
-    for (let i = 1; i <= lastDatesofMonth; i++) {
-
+    for (let i = 1; i <= lastDatesofMonth; i++) { // full of days
         let isToday = i === date.getDate() && currentMonth === new Date().getMonth() && currentYear === new Date().getFullYear() ? "active" : "";
         liTag = liTag + `<li class=${isToday}>${i}</li>`;
     }
 
-    for (let i = lastDayofMonth; i < 5; i++) {
+    for (let i = lastDayofMonth; i < 6; i++) {
         liTag = liTag + `<li class="inactive">${i - lastDayofMonth + 1}</li>`;  // creating next month first days
-       
-    }
 
-    currentDate.innerText = `${months[currentMonth]} ${currentYear}`;
+    } 
     daysTag.innerHTML = liTag;
 }
 
 renderCalendar();
+
 
 prevNexticon.forEach(icon => {
     icon.addEventListener("click", () => {
@@ -50,6 +47,7 @@ prevNexticon.forEach(icon => {
             date = new Date(currentYear, currentMonth);
             currentYear = date.getFullYear();
             currentMonth = date.getMonth();
+    
         } else {
             date = new Date();
         }
